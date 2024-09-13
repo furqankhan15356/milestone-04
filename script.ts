@@ -51,6 +51,27 @@ function makeEditable(){
     editableElements.forEach(element => {
         element.addEventListener(`click` , function() {
             const currentElement = element as HTMLElement;
+            const currentValue = currentElement.textContent || "";
+
+            //replace content
+            if (currentElement.tagName === "P" || currentElement.tagName === 'SPAN') {
+                const input = document.createElement('input')
+                input.type = 'text'
+                input.value = currentValue
+                input.classList.add('editing-input')
+
+                input.addEventListener('blur', function (){
+                    currentElement.textContent = input.value;
+                    currentElement.style.display = 'inline'
+                    input.remove()
+                })
+
+
+
+                currentElement.style.display = 'none'
+                currentElement.parentNode?.insertBefore(input, currentElement)
+                input.focus()
+            }
         })
     })
 }
